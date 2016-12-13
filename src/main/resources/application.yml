@@ -1,0 +1,12 @@
+server:
+  port: 8050
+
+spring:
+  application:
+    name: hystrix-dashboard
+
+logging:
+  file: /opt/data/logs/hystrix/hystrix.log
+  level:
+    org.springframework.web: DEBUG
+    com.zxy: INFO

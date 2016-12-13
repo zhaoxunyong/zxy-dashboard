@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        maven {
+            url groupUrl
+//            url "http://dl.bintray.com/eddgrant/maven"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
+
+        classpath 'de.aaschmid:gradle-cpd-plugin:1.0'
+
+    }
+}
+// ext.mpd = new com.eddgrant.mpd.MavenPasswordDecrypter()
+
+apply plugin: "maven-publish"
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'org.springframework.boot'
+
+apply from: 'gradle/common.gradle'
+apply from: 'gradle/mavenauth.gradle'
+
+
+dependencyManagement {
+    imports {
+        mavenBom "com.zxy:zxy-commons-bom:${commonsBomVersion}"
+//        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Brixton.SR7"
+    }
+}
+
+dependencies {
+//    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
+//    compile('org.springframework.cloud:spring-cloud-netflix-turbine')
+    compile("com.netflix.turbine:turbine-core") {
+        exclude group: "javax.servlet", module: "servlet-api"
+        exclude group: "com.netflix.rxjava", module: "rxjava-core"
+        exclude group: "org.slf4j", module: "slf4j-simple"
+        exclude group: "org.mockito", module: "org.mockito"
+    }
+}
